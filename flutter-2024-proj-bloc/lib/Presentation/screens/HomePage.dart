@@ -4,24 +4,22 @@ import './search.dart';
 import './bookings.dart';
 import './profie_page.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
-      title: 'Bottom Navigation Bar',
-      home: HomePage(),
-    ),
-  );
-}
-
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final int index;
+  HomePage({Key? key, required this.index}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  var currentIndex = 0;
+  late int currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.index;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,60 +103,4 @@ class _HomePageState extends State<HomePage> {
     Icons.date_range_outlined,
     Icons.person_rounded,
   ];
-}
-
-class Page1 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Page 1'),
-      ),
-      body: Center(
-        child: Text('Page 1 Content'),
-      ),
-    );
-  }
-}
-
-class Page2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Page 2'),
-      ),
-      body: Center(
-        child: Text('Page 2 Content'),
-      ),
-    );
-  }
-}
-
-class Page3 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Page 3'),
-      ),
-      body: Center(
-        child: Text('Page 3 Content'),
-      ),
-    );
-  }
-}
-
-class Page4 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Page 4'),
-      ),
-      body: Center(
-        child: Text('Page 4 Content'),
-      ),
-    );
-  }
 }

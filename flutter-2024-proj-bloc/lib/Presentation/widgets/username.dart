@@ -1,15 +1,17 @@
-// presentation/widgets/username.dart
 import 'package:flutter/material.dart';
 
 class UsernameTextField extends StatelessWidget {
   final TextEditingController controller;
 
-  const UsernameTextField({super.key, required this.controller});
+  UsernameTextField({Key? key, required this.controller}) : super(key: key);
+
+  final usernameKey = GlobalKey<FormFieldState>();
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: controller,
+      key: Key("usernameSignup"),
+      controller: controller, // Use the controller here
       style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         labelStyle: const TextStyle(color: Colors.white),

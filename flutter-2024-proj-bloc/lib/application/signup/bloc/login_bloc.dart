@@ -1,13 +1,16 @@
-// login_bloc.dart
-import 'dart:convert';
 import 'package:bloc/bloc.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_application_1/application/token_bloc.dart';
+import 'package:flutter_application_1/infrastructure/Data%20Provider/auth_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(LoginInitial()) {
+  final AuthService authService;
+
+  LoginBloc(this.authService) : super(LoginInitial()) {
     on<LoginButtonPressed>(_onLoginButtonPressed);
+    on<UserTypeChanged>(_onUserTypeChanged);
   }
 
   Future<void> _onLoginButtonPressed(
@@ -17,25 +20,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(LoginLoading());
 
     try {
-      final response = await http.post(
-        Uri.parse('http://192.168.188.161:5000/auth/login'),
-        headers: {'token': 'your_token_here'}, // Replace with actual token
-        body: {
-          'password': event.password,
-          'email': event.email,
-        },
+      final responseBody = await authService.login(
+        event.email,
+        event.password,
+        event.userType,
       );
 
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        final responseBody = jsonDecode(response.body);
-        emit(LoginSuccess(responseBody['message']));
-        emit(LoginToken(responseBody['token']));
-      } else {
-        final responseBody = jsonDecode(response.body);
-        emit(LoginFailure(responseBody['error']));
-      }
+      emit(const LoginSuccess("success"));
+      emit(LoginToken(responseBody['token']));
+
+      BlocProvider.of<TokenBloc>(event.context)
+          .add(SetToken(token: responseBody['token']));
     } catch (error) {
       emit(LoginFailure(error.toString()));
     }
+  }
+
+  void _onUserTypeChanged(UserTypeChanged event, Emitter<LoginState> emit) {
+    emit(UserChanged(event.userType));
   }
 }

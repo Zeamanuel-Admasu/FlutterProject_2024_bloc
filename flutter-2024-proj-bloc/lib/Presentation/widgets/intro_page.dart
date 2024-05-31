@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../screens/login_page.dart';
 
 class IntroBody extends StatefulWidget {
@@ -98,12 +99,7 @@ class _IntroBodyState extends State<IntroBody>
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginPage(),
-                            ),
-                          );
+                          GoRouter.of(context).go("/login");
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,

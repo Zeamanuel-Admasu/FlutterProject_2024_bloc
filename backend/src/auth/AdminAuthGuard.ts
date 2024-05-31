@@ -8,7 +8,7 @@ export class AdminAuthGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
-    const token = request.cookies['jwt']; 
+    const token = request.headers.token;
     console.log(token);// Assuming JWT token is stored in a cookie named 'jwt'
 
     if (!token) {

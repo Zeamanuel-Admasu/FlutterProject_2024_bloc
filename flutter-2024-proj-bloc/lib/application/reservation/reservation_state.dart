@@ -1,29 +1,31 @@
+// lib/application/bloc/reserve_state.dart
+
 import 'package:equatable/equatable.dart';
 
-abstract class ReservationState extends Equatable {
-  const ReservationState();
+abstract class ReserveState extends Equatable {
+  const ReserveState();
 
   @override
   List<Object> get props => [];
 }
 
-class ReservationInitial extends ReservationState {}
+class ReserveInitial extends ReserveState {}
 
-class ReservationLoading extends ReservationState {}
+class ReserveLoading extends ReserveState {}
 
-class ReservationSuccess extends ReservationState {
-  final String message;
+class ReserveSuccess extends ReserveState {
+  final Map<String, String> response;
 
-  const ReservationSuccess(this.message);
+  const ReserveSuccess(this.response);
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [response];
 }
 
-class ReservationFailure extends ReservationState {
+class ReserveFailure extends ReserveState {
   final String error;
 
-  const ReservationFailure(this.error);
+  const ReserveFailure(this.error);
 
   @override
   List<Object> get props => [error];

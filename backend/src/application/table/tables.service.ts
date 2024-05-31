@@ -31,12 +31,21 @@ export class TableService {
     return await this.tableRepository.findAll();
   }
 
-  async getSingleTable(tabNum: number): Promise<Table | { error: string }> {
+  async getSingleTable(tabNum: number): Promise<Object> {
     const table = await this.tableRepository.findByTableNumber(tabNum);
+    console.log(table);
     if (!table) {
       return { error: 'Table does not exist.' };
     }
-    return table;
+    return {
+      "status": "success",
+
+        tableNumber: table.tableNumber,
+        floor: table.floor,
+        type: table.Type,
+         seats : table.Number_of_seats
+      
+    };
   }
 
   async updateTable(

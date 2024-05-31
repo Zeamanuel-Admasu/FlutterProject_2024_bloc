@@ -34,6 +34,9 @@ export class AuthRepository {
     async getUserByEmail(email: string): Promise<User | null> {
         return await this.userModel.findOne({ email }).exec();
     }
+    async findUserById(id: string): Promise<User | null> {
+        return await this.userModel.findById(id).exec();
+    }
 
     async getAdminByName(name: string): Promise<Admin | null> {
         return await this.adminModel.findOne({ name }).exec();
@@ -52,6 +55,9 @@ export class AuthRepository {
     async verifyAdminCredentials(name: string, password: string): Promise<boolean> {
         const admin = await this.adminModel.findOne().where("name").equals("admin");
         if (!admin) return false;
-        return await bcrypt.compare(password, admin.password);
+        const res =  await bcrypt.compare(password, admin.password);
+        console.log(name);
+
+        return name == "Abebe" && res;
     }
 }

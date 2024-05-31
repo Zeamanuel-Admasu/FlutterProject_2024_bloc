@@ -17,6 +17,7 @@ import { AdminAuthGuard } from 'src/auth/AdminAuthGuard';
 @Controller('tables')
 export class TablesController {
   constructor(private readonly tableService: TableService) {}
+  
 
   @Post()
   @UseGuards(AdminAuthGuard)
@@ -27,12 +28,14 @@ export class TablesController {
     @Body('tableNUM') tabNum: number,
 
 ) {
+  console.log("jeeeeeeeeeeeeeee")
     const resp = await this.tableService.insertTable(
       tabNum,
       tabSeats,
       tabType,
       tabFloor
     );
+    console.log(resp);
     return resp;
   }
 
@@ -58,6 +61,7 @@ export class TablesController {
     @Body('updtype') tabType: string,
     @Body('updfloor') tabFloor: number,
   ) {
+    console.log("yeeesayagfhesg")
     const resp = await this.tableService.updateTable(tabNumm, tabSeats, tabType, tabFloor);
     return resp
     
@@ -66,6 +70,7 @@ export class TablesController {
   @Delete(':tableNum')
   @UseGuards(AdminAuthGuard)
   async removeTable(@Param('tableNum') tabNum: number) {
-      return await this.tableService.deleteTable(tabNum);;
+    console.log("dalfkldasdf;laskfdldkasd");
+      return await this.tableService.deleteTable(tabNum);
   }
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import './ExpandedBooking.dart';
 import '../widgets/My_bookingsState.dart';
-import './main_reserve.dart';
 
 void main() {
   runApp(const Bookings());
@@ -19,10 +17,6 @@ class Bookings extends StatelessWidget {
         useMaterial3: true,
       ),
       initialRoute: '/',
-      routes: {
-        '/detail': (context) => const ExpandedBooking(),
-        '/reserve': (context) => const Bookings()
-      },
       home: const MyBookings(),
     );
   }

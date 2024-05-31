@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthService } from './application/auth/auth.service';
+import { AuthService } from './application/auth/auth.service'; // Import AuthService
 
 import { TablesModule } from './application/table/tables.module';
 import { ReserveModule } from './application/reservation/reserve.module';

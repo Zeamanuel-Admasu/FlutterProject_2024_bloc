@@ -15,6 +15,7 @@ class DateField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      key: Key("dateInput"),
       onTap: () {
         _selectDate(context);
       },

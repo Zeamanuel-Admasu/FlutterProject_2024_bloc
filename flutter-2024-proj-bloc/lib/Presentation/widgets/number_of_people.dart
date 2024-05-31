@@ -1,27 +1,21 @@
 import 'package:flutter/material.dart';
 
 class NumberOfPeopleField extends StatelessWidget {
-  TextEditingController numberOfPeopleController;
-  bool isDateFocused;
-  bool isTimeFocused;
-  bool isGuestFocused;
+  final TextEditingController numberOfPeopleController;
 
   NumberOfPeopleField({
     required this.numberOfPeopleController,
-    required this.isDateFocused,
-    required this.isTimeFocused,
-    required this.isGuestFocused,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print('Number of people field text: ${numberOfPeopleController.text}');
     return TextFormField(
       onTap: () {
-        isDateFocused = false;
-        isTimeFocused = false;
-        isGuestFocused = true;
+        print('Number of people field tapped');
       },
+      key: const Key("numberofpeople"),
       controller: numberOfPeopleController,
       keyboardType: TextInputType.number,
       style: const TextStyle(
@@ -31,9 +25,8 @@ class NumberOfPeopleField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Number of People',
         labelStyle: TextStyle(
-          color:
-              isGuestFocused ? Colors.white : Color.fromRGBO(159, 188, 204, 1),
-          fontSize: isGuestFocused ? 24 : 22,
+          color: Colors.white,
+          fontSize: 22,
         ),
         prefixIcon: const Icon(
           Icons.people,

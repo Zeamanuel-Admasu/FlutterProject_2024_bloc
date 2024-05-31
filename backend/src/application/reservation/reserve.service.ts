@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { ReserveRepository } from '../../infrastructure/reservation/reservation.repository';
 import { TableRepository } from '../../infrastructure/table/table.repository';
 import { Table } from '../../domain/table.model';
+import { stat } from 'fs';
 const moment = require("moment");
 
 @Injectable()
@@ -16,15 +17,19 @@ export class ReserveService {
     tableSeats: number,
     tableType: string,
     date: Date,
-    time: string
+    time: string,
+    branch:string,
+    food : string
   ) {
+    console.log(tableType,tableSeats);
     const satisfyingTables = await this.tableRepository.findSatisfyingTables(tableType, tableSeats);
+    console.log(satisfyingTables);
     const isoDate: string = moment(date).toISOString();
     const isoTime: string = moment(time, "HH:mm").toISOString();
     const ans = await this.checkAvailability(satisfyingTables, isoDate, isoTime);
     
     if (ans !== "") {
-      const newReserve = await this.reserveRepository.createReservation(id, tableSeats, isoDate, isoTime);
+      const newReserve = await this.reserveRepository.createReservation(id, tableSeats, isoDate, isoTime,branch,food);
       const reservedTable = await this.tableRepository.findById(ans);
       reservedTable.reservations.push(newReserve);
       await reservedTable.save();
@@ -98,46 +103,86 @@ export class ReserveService {
     tableSeats: number,
     tableType: string,
     date: Date,
-    time: string
+    time: string,
+    branch: string,
+    food: string,
   ) {
     const updatedTable = await this.tableRepository.findByTableNumber(tableNum);
     if (!updatedTable) {
       throw new NotFoundException('Table not found');
     }
-
-    // Business logic for updating a reservation
-    updatedTable.reservations.forEach(async (item) => {
-      if (moment(item.time, "HH:mm").format("hh:mm A") === checktime) {
-        await this.reserveTable(id, tableSeats, tableType, date, time);
+    const isoTime: string = moment(checktime, "HH:mm").toISOString();
+  
+    for (const item of updatedTable.reservations) {
+      if (item.time.slice(10) === isoTime.slice(10)) {
+        return await this.updreserveTable(id, checktime, tableSeats, tableType, date, time, branch, food, tableNum);
       }
-    });
+    }
+  
+    return {status: "error", message: "Reservation not found" };
   }
-
+  
   async deleteReservation(tableNum: number, time: string) {
-    console.log("hereeeeeeee")
     const table = await this.tableRepository.findByTableNumber(tableNum);
   
     if (!table) {
+      console.log("table not found")
       throw new NotFoundException('Table not found');
     }
     let hr = new Date(moment(time, "HH:mm")).getHours();
         let min = new Date(moment(time, "HH:mm")).getMinutes();
-        if (time.slice(-2) == "PM") {
+        if ((time.slice(-2) == "PM") && (hr != 12)) {
             hr += 12;
         }
-        table.reservations.forEach((item) => {
-          console.log(item)
-          console.log(hr,min,new Date(item.time).getHours());
+        // table.reservations.forEach((item) => {
+        //   console.log(item)
+        //   console.log(hr,min,new Date(item.time).getHours());
 
-        })
+        // })
     
-
     table.reservations = table.reservations.filter(item => !(new Date(item.time).getHours() === hr && new Date(item.time).getMinutes() === min))
+
+
         await table.save();
+        return {
+          status: "success",
+          message: "successfully deleted"
+        }
   }
 
   async getUserReservations(id: string) {
     const userReservations = await this.reserveRepository.getUserReservations(id);
     return userReservations
+  }
+  async updreserveTable(
+    id: string,
+    checktime:string,
+    tableSeats: number,
+    tableType: string,
+    date: Date,
+    time: string,
+    branch:string,
+    food : string,
+    tableNum: number
+  ) {
+    console.log(branch);
+    const satisfyingTables = await this.tableRepository.findSatisfyingTables(tableType, tableSeats);
+    const isoDate: string = moment(date).toISOString();
+    const isoTime: string = moment(time, "HH:mm").toISOString();
+    const ans = await this.checkAvailability(satisfyingTables, isoDate, isoTime);
+    
+    if (ans !== "") {
+      console.log("akdfakjfksaf");
+      console.log(await this.deleteReservation(tableNum,checktime));
+      const newReserve = await this.reserveRepository.createReservation(id, tableSeats, isoDate, isoTime,branch,food);
+      const reservedTable = await this.tableRepository.findById(ans);
+      reservedTable.reservations.push(newReserve);
+      await reservedTable.save();
+      console.log("whywyyhyh");
+      return { status: "success", message: "Reservation Updated" };
+    } else {
+      console.log("ddddddd");
+      return { status: "error", message: "No available Table" };
+    }
   }
 }

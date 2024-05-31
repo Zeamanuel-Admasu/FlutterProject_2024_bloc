@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../others/foodItems.dart';
-import './main_reserve.dart';
+import 'package:go_router/go_router.dart';
+import '../../domain/foodItems.dart';
 
 void main() {
   runApp(const Search());
@@ -79,13 +79,15 @@ class SearchBody extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MainReserve()),
-                    );
+                    GoRouter.of(context).goNamed('mainReserve', extra: {
+                      "data": foodItems[index].name!,
+                      "create": "true",
+                      "tableNumber": "0",
+                      "checkTime": ''
+                    });
                   },
                   child: Container(
+                    key: Key('${foodItems[index].name}item'),
                     margin: const EdgeInsets.all(8),
                     width: 150,
                     child: Card(

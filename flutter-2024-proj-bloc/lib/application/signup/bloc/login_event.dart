@@ -1,5 +1,6 @@
 // application/signup/bloc/login_event.dart
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 abstract class LoginEvent extends Equatable {
   const LoginEvent();
@@ -21,12 +22,13 @@ class LoginButtonPressed extends LoginEvent {
   final String email;
   final String password;
   final String userType;
+  final BuildContext context;
 
-  const LoginButtonPressed({
-    required this.email,
-    required this.password,
-    required this.userType,
-  });
+  const LoginButtonPressed(
+      {required this.email,
+      required this.password,
+      required this.userType,
+      required this.context});
 
   @override
   List<Object> get props => [email, password, userType];

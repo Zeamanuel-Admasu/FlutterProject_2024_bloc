@@ -18,6 +18,7 @@ class TimeField extends StatelessWidget {
       onTap: () {
         _selectTime(context);
       },
+      key: const Key("timeInput"),
       controller: timeController,
       readOnly: true,
       style: TextStyle(

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import '../others/bookingDetail.dart';
+import 'package:go_router/go_router.dart';
 import '../others/bookingsClass.dart';
-import '../widgets/My_bookingsState.dart';
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const ExpandedBooking());
-}
-
 class ExpandedBooking extends StatefulWidget {
-  const ExpandedBooking({Key? key}) : super(key: key);
+  final dynamic arguments;
+  const ExpandedBooking({Key? key, required this.arguments}) : super(key: key);
   @override
   _ExpandedBookingState createState() => _ExpandedBookingState();
 }
@@ -46,9 +42,9 @@ class _ExpandedBookingState extends State<ExpandedBooking> {
 
   @override
   Widget build(BuildContext context) {
-    final dynamic arguments = ModalRoute.of(context)?.settings.arguments;
+    final dynamic arguments = widget.arguments;
 
-    ReservedTable? yourData;
+    ReservedTable yourData;
 
     if (arguments != null && arguments is ReservedTable) {
       yourData = arguments;
@@ -65,6 +61,12 @@ class _ExpandedBookingState extends State<ExpandedBooking> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Booking Details"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            GoRouter.of(context).replace("/home?index=2");
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -288,7 +290,12 @@ class _ExpandedBookingState extends State<ExpandedBooking> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, '/reserve');
+                                context.goNamed('mainReserve', extra: {
+                                  "data": yourData.food!,
+                                  "create": "false",
+                                  "tableNumber": yourData.tablesNum.toString(),
+                                  "checkTime": yourData.time!
+                                });
                               },
                               child: const Text(
                                 'Modify Booking',

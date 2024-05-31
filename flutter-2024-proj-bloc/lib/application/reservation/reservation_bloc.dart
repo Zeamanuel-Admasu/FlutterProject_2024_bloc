@@ -1,45 +1,66 @@
-import 'dart:convert';
-import 'package:bloc/bloc.dart';
-import 'package:http/http.dart' as http;
-import 'reservation_event.dart';
-import 'reservation_state.dart';
+import 'package:flutter_application_1/application/reservation/reservation_event.dart';
+import 'package:flutter_application_1/application/reservation/reservation_state.dart';
+import 'package:flutter_application_1/infrastructure/Data%20Provider/reserve_repo.dart';
+import 'package:flutter_application_1/infrastructure/Repository/reserve_repo.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
-  ReservationBloc() : super(ReservationInitial());
+class ReserveBloc extends Bloc<ReserveEvent, ReserveState> {
+  final ReserveService reserveService;
 
-  @override
-  Stream<ReservationState> mapEventToState(ReservationEvent event) async* {
-    if (event is MakeReservation) {
-      yield* _mapMakeReservationToState(event);
+  ReserveBloc(this.reserveService) : super(ReserveInitial()) {
+    on<CreateReservation>(_onCreateReservation);
+    on<UpdateReservation>(_onUpdateReservation);
+  }
+
+  Future<void> _onCreateReservation(
+      CreateReservation event, Emitter<ReserveState> emit) async {
+    emit(ReserveLoading());
+    try {
+      final response = await reserveService.reserve(
+        event.token,
+        event.seatsH,
+        event.date,
+        event.time,
+        event.typeH,
+        event.branch,
+        event.foodName,
+        true,
+        event.tableNumber,
+        event.checkTime,
+      );
+      if (response.containsKey('success')) {
+        emit(ReserveSuccess(response));
+      } else {
+        emit(ReserveFailure(response['error']!));
+      }
+    } catch (error) {
+      emit(ReserveFailure(error.toString()));
     }
   }
 
-  Stream<ReservationState> _mapMakeReservationToState(
-      MakeReservation event) async* {
-    yield ReservationLoading();
-
+  Future<void> _onUpdateReservation(
+      UpdateReservation event, Emitter<ReserveState> emit) async {
+    emit(ReserveLoading());
     try {
-      final response = await http.post(
-        Uri.parse('http://192.168.188.161:5000/reserve'),
-        headers: {'token': '${event.token}'},
-        body: {
-          'numberOfPeople': event.numberOfPeople.toString(),
-          'date': event.date,
-          'time': event.time,
-          'type': event.type,
-          'branch': event.branch,
-        },
+      final response = await reserveService.reserve(
+        event.token,
+        event.seatsH,
+        event.date,
+        event.time,
+        event.typeH,
+        event.branch,
+        event.foodName,
+        false,
+        event.tableNumber,
+        event.checkTime,
       );
-
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        final responseBody = jsonDecode(response.body);
-        yield ReservationSuccess(responseBody['message']);
+      if (response.containsKey('success')) {
+        emit(ReserveSuccess(response));
       } else {
-        final responseBody = jsonDecode(response.body);
-        yield ReservationFailure(responseBody['error']);
+        emit(ReserveFailure(response['error']!));
       }
     } catch (error) {
-      yield ReservationFailure('Failed to make reservation: $error');
+      emit(ReserveFailure(error.toString()));
     }
   }
 }
