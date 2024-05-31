@@ -63,9 +63,10 @@ export class TablesController {
     @Body('updtype') tabType: string,
     @Body('updfloor') tabFloor: number,
   ) {
-    console.log("yeeesayagfhesg")
+    console.log(tabNumm);
     console.log(tabFloor,tabType);
     const resp = await this.tableService.updateTable(tabNumm, tabSeats, tabType, tabFloor);
+    console.log(resp);
     return resp
     
   }

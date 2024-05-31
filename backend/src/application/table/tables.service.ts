@@ -54,7 +54,9 @@ export class TableService {
     type: string,
     floor: number,
   ): Promise<{ status: string; message: string }> {
+    console.log(" table num is " + tableNum);
     const existingTable = await this.tableRepository.findByTableNumber(tableNum);
+    console.log(existingTable);
     if (!existingTable) {
       return { status: 'error', message: 'Table not found.' };
     }
