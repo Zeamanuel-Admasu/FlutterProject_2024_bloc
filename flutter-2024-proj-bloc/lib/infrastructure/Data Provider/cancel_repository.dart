@@ -13,7 +13,7 @@ class CancelService {
       String time, int tableNumber, BuildContext context) async {
     try {
       print("dfsssssssssssssssssssssssssssssss");
-      const url = 'http://192.168.191.42:5000/';
+      const url = 'http://10.5.222.128:5000/';
       final endpoint = 'reserve/delete';
 
       final tokenState = context.read<TokenBloc>().state;

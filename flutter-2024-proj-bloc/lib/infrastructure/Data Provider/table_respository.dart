@@ -18,7 +18,7 @@ class TableService {
     try {
       print("ehrjakjfhdsakjfhkdfakj");
       dynamic response;
-      const urll = 'http://192.168.191.42:5000/';
+      const urll = 'http://10.5.222.128:5000/';
       var curr_url = 'tables';
 
       // Retrieve the token from TokenBloc
@@ -52,8 +52,8 @@ class TableService {
           headers: {"token": token},
           body: {
             'updseats': seatsH,
-            'updtype': typeH,
-            'updfloor': floor,
+            'updtype': floor,
+            'updfloor': typeH,
             'tableNum': tableNUM,
           },
         );

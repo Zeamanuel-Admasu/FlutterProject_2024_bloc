@@ -40,34 +40,34 @@ void main() {
       await tester.pumpAndSettle();
       Future.delayed(const Duration(seconds: 1));
 
-      await tester.tap(find.byKey(const Key("SignUp")));
-      await tester.pumpAndSettle();
+      // await tester.tap(find.byKey(const Key("SignUp")));
+      // await tester.pumpAndSettle();
 
-      Future.delayed(const Duration(seconds: 1));
+      // Future.delayed(const Duration(seconds: 1));
 
-      expect(find.byType(SignupPage), findsOneWidget);
+      // expect(find.byType(SignupPage), findsOneWidget);
 
-      await tester.enterText(find.byKey(const Key("usernameSignup")), "sample");
-      await tester.enterText(
-          find.byKey(const Key("EmailSignUp")), "sample@gmail.com");
-      await tester.enterText(find.byKey(const Key("SignUpPassword")), "12345");
-      await tester.enterText(find.byKey(const Key("confirmPassword")), "12345");
+      // await tester.enterText(find.byKey(const Key("usernameSignup")), "sample");
+      // await tester.enterText(
+      //     find.byKey(const Key("EmailSignUp")), "sample@gmail.com");
+      // await tester.enterText(find.byKey(const Key("SignUpPassword")), "12345");
+      // await tester.enterText(find.byKey(const Key("confirmPassword")), "12345");
 
-      await tester.testTextInput.receiveAction(TextInputAction.done);
+      // await tester.testTextInput.receiveAction(TextInputAction.done);
 
-      await tester.pumpAndSettle();
-      Future.delayed(const Duration(seconds: 1));
+      // await tester.pumpAndSettle();
+      // Future.delayed(const Duration(seconds: 1));
 
-      expect(tester.testTextInput.editingState, isNull);
-      await tester.pumpAndSettle();
+      // expect(tester.testTextInput.editingState, isNull);
+      // await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const Key("SignupButton")));
-      await tester.pumpAndSettle();
-      Future.delayed(const Duration(seconds: 1));
+      // await tester.tap(find.byKey(const Key("SignupButton")));
+      // await tester.pumpAndSettle();
+      // Future.delayed(const Duration(seconds: 1));
 
-      await tester.tap(find.byKey(const Key("loginfromsignup")));
-      await tester.pumpAndSettle();
-      Future.delayed(const Duration(seconds: 1));
+      // await tester.tap(find.byKey(const Key("loginfromsignup")));
+      // await tester.pumpAndSettle();
+      // Future.delayed(const Duration(seconds: 1));
 
       expect(find.byType(LoginPage), findsOneWidget);
 

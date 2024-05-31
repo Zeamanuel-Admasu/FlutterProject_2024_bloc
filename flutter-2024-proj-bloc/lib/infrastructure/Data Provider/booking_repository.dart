@@ -8,7 +8,7 @@ class BookingService {
   Future<List<ReservedTable>> fetchBookings(String type, String token) async {
     try {
       final response = await http.get(
-        Uri.parse("http://192.168.191.42:5000/reserve/userreservations"),
+        Uri.parse("http://10.5.222.128:5000/reserve/userreservations"),
         headers: {"token": token},
       );
 

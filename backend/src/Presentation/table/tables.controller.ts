@@ -64,6 +64,7 @@ export class TablesController {
     @Body('updfloor') tabFloor: number,
   ) {
     console.log("yeeesayagfhesg")
+    console.log(tabFloor,tabType);
     const resp = await this.tableService.updateTable(tabNumm, tabSeats, tabType, tabFloor);
     return resp
     

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class UserService {
-  static const String baseUrl = 'http://192.168.191.42:5000/auth/';
+  static const String baseUrl = 'http://10.5.222.128:5000/auth/';
 
   Future<List<String>> fetchUser(String token) async {
     try {
