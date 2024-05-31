@@ -17,10 +17,9 @@ import { AdminAuthGuard } from 'src/auth/AdminAuthGuard';
 @Controller('tables')
 export class TablesController {
   constructor(private readonly tableService: TableService) {}
-  
 
   @Post()
-  // @UseGuards(AdminAuthGuard)
+  @UseGuards(AdminAuthGuard)
   async addTable(
     @Body('seats') tabSeats: number,
     @Body('type') tabType: string,
@@ -28,7 +27,6 @@ export class TablesController {
     @Body('tableNUM') tabNum: number,
 
 ) {
-  console.log("jeeeeeeeeeeeeeee")
     const resp = await this.tableService.insertTable(
       tabNum,
       tabSeats,
@@ -46,30 +44,28 @@ export class TablesController {
   }
 
   @Get(':tableNum')
-  // @UseGuards(AdminAuthGuard)
+  @UseGuards(AdminAuthGuard)
   async getTable(@Param('tableNum') tabNum: number) {
     const result = await this.tableService.getSingleTable(tabNum);
     return result;
   }
 
   @Patch(':tableNum')
-  // @UseGuards(AdminAuthGuard)
+  @UseGuards(AdminAuthGuard)
   async updateTable(
     @Param('tableNum') tabNumm: number,
     @Body('updseats') tabSeats: number,
     @Body('updtype') tabType: string,
     @Body('updfloor') tabFloor: number,
   ) {
-    console.log("yeeesayagfhesg")
     const resp = await this.tableService.updateTable(tabNumm, tabSeats, tabType, tabFloor);
     return resp
     
   }
 
   @Delete(':tableNum')
-  // @UseGuards(AdminAuthGuard)
+  @UseGuards(AdminAuthGuard)
   async removeTable(@Param('tableNum') tabNum: number) {
-    console.log("dalfkldasdf;laskfdldkasd");
-      return await this.tableService.deleteTable(tabNum);
+      return await this.tableService.deleteTable(tabNum);;
   }
 }

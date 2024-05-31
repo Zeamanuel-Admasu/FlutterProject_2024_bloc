@@ -23,7 +23,6 @@ export class AuthService {
     async login(email: string, password: string) {
         const retrievedUser = await this.authRepository.getUserByEmail(email);
         if (!retrievedUser || !(await bcrypt.compare(password, retrievedUser.password))) {
-            console.log("tueee")
             throw new UnauthorizedException("Invalid email or password");
         }
         const payload = {
@@ -51,12 +50,11 @@ export class AuthService {
                 throw new UnauthorizedException();
             }
             const user = await this.authRepository.getUserByEmail(data.email);
-            return {status: "success", id: user._id,name: user.username,email: user.email};
+            return {status: "success", id: user._id};
         } catch(err){
             throw new UnauthorizedException();
         }
     }
-
 
     async getAdmin(){
         const admin = await this.authRepository.getAdminByName("admin");
@@ -85,18 +83,6 @@ export class AuthService {
         return {
             statusCode: 200,
             message: "success"
-        };
-    }
-    async changeUsername(name: string, id: string){
-        const retrievedUser = await this.authRepository.findUserById(id);
-        if (!retrievedUser) {
-            throw new UnauthorizedException("User Not Found");
-        }
-        retrievedUser.username = name;
-        retrievedUser.save();
-
-        return {
-            message: "Successfully Changed"
         };
     }
 }

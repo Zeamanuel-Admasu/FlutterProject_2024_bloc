@@ -17,17 +17,13 @@ export class ReserveRepository {
     userId: string,
     numberOfPeople: number,
     dateOfReservation: string,
-    time: string,
-    branch:string,
-    food:string
+    time: string
   ): Promise<Reserve> {
     const newReservation = new this.reserveModel({
       user_id: userId,
       Number_of_people: numberOfPeople,
       date_of_reservation: dateOfReservation,
-      time: time,
-      branch: branch,
-      food: food
+      time: time
     });
     return await newReservation.save();
   }
@@ -85,11 +81,7 @@ async getUserReservations(id: string) {
                     Type: tables[i].Type,
                     time: `${hours}:${minutes}${period}`,
                     date: new Date(tables[i].reservations[j].date_of_reservation).toDateString(),
-                    Number_of_people: tables[i].reservations[j].Number_of_people,
-                    branch: tables[i].reservations[j].branch,
-                    food: tables[i].reservations[j].food,
-
-
+                    Number_of_people: tables[i].reservations[j].Number_of_people
                 })
             }
     }
@@ -97,7 +89,6 @@ async getUserReservations(id: string) {
 
 }
 async deleteReservation(tableNum: number){
-    console.log(tableNum);
-    const result = await this.tableModel.deleteOne({tableNumber: tableNum}).exec();
+    const result = await this.tableModel.deleteOne({tableNumber: tabNum}).exec();
 }
 }

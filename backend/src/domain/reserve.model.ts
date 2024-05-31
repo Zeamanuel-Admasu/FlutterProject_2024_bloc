@@ -4,10 +4,7 @@ export const ReserveSchema = new mongoose.Schema({
   user_id: { type: String, required: true },
   Number_of_people: { type: Number, required: true },
   date_of_reservation: { type: String, required: true },
-  time: { type: String, required: true },
-  branch: { type: String, required: true },
-  food: { type: String, required: true },
-
+  time: { type: String, required: true }
 
 });
 
@@ -16,7 +13,5 @@ export interface Reserve extends mongoose.Document {
   id: string;
   Number_of_people: number;
   time: string;
-  date_of_reservation: string,
-  branch:string,
-  food:string
+  date_of_reservation: string
 }

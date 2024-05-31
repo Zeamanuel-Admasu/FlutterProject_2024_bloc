@@ -21,7 +21,6 @@ import {
   
     @Post('signup')
     async createUser(@Body('username') name: string,@Body('email') email: string, @Body('password') password: string){
-        console.log("hejrekj");
         const resp = await this.authService.createUser(
             name,
             email,
@@ -35,21 +34,18 @@ import {
   
     @Post("login")
     async login(@Body('email') email: string, @Body('password') password: string, @Res({passthrough: true}) response: Response) {
-        console.log("aha");
 
         const jwt = await this.authService.login(email,password);
         response.cookie("jwt",jwt,{httpOnly: true});
 
         return {
-            message: "success",
-            token: jwt
+            message: "success"
         };
     }
     @Get("/user")
     @UseGuards(JwtAuthGuard)
     async getUser(@Req() request: Request){
-        console.log("came here");
-        const cookie = request.headers.authorization;
+        const cookie = request.cookies['jwt'];
     
         if (!cookie){
             return {
@@ -59,7 +55,6 @@ import {
         return this.authService.getUser(cookie);
 
     }
-
     @Get("/logout")
     async logout(@Res({passthrough:true}) res: Response){
         res.clearCookie('jwt');
@@ -68,15 +63,7 @@ import {
     }
     @Post("/admin")
     async verifyAdmin(@Body("name") name: string, @Body("password") password:string){
-        console.log("rrrrrrrrrrrrrrrrrrrr");
         return this.authService.verifyAdmin(name,password);
-
-    }
-    @Post("/changeusername")
-    async changeUsername(@Body("username") name: string,@Body("id") id: string){
-    
-        console.log("rrrrrrrrrrrrrrsssssssrrrrrr");
-        return this.authService.changeUsername(name,id);
 
     }
  

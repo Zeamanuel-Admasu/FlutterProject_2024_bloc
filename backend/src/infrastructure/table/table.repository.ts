@@ -37,7 +37,6 @@ export class TableRepository {
     }
   }
   async findSatisfyingTables(tableType: string, tableSeats: number): Promise<Table[]> {
-    console.log(tableType,tableSeats);
     return await this.tableModel.find({ Type: tableType, Number_of_seats: { $gte: tableSeats } }).exec();
   }
   
