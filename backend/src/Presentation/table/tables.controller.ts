@@ -49,6 +49,8 @@ export class TablesController {
   @Get(':tableNum')
   @UseGuards(AdminAuthGuard)
   async getTable(@Param('tableNum') tabNum: number) {
+    console.log("safjkjfadsklf");
+    
     const result = await this.tableService.getSingleTable(tabNum);
     return result;
   }

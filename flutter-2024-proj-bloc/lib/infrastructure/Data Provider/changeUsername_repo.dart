@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
 class ChangeUsernameService {
-  static const String baseUrl = 'http://192.168.1.110:5000/auth/';
+  static const String baseUrl = 'http://192.168.191.42:5000/auth/';
 
   Future<String> changeUsername(String username, BuildContext context) async {
     try {

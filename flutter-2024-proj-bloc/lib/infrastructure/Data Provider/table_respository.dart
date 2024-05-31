@@ -14,9 +14,11 @@ class TableService {
 
   Future<Map<String, String>> table(String typeH, String floor, String tableNUM,
       String seatsH, String method) async {
+    print("dsasjfasdjfkafda");
     try {
+      print("ehrjakjfhdsakjfhkdfakj");
       dynamic response;
-      const urll = 'http://192.168.1.110:5000/';
+      const urll = 'http://192.168.191.42:5000/';
       var curr_url = 'tables';
 
       // Retrieve the token from TokenBloc

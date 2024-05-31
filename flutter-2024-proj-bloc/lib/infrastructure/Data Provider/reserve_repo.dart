@@ -19,7 +19,7 @@ class ReserveService {
       String tableNumber,
       String checkTime) async {
     try {
-      const url = 'http://192.168.1.110:5000/';
+      const url = 'http://192.168.191.42:5000/';
       var endpoint = 'reserve';
       print(create);
 

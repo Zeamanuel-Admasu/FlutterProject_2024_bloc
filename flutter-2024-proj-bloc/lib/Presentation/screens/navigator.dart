@@ -21,6 +21,7 @@ import 'package:flutter_application_1/application/type/type_bloc.dart';
 import 'package:flutter_application_1/infrastructure/Data%20Provider/auth_repository.dart';
 import 'package:flutter_application_1/infrastructure/Data%20Provider/cancel_repository.dart';
 import 'package:flutter_application_1/infrastructure/Data%20Provider/reserve_repo.dart';
+import 'package:flutter_application_1/infrastructure/Data%20Provider/table_respository.dart';
 import 'package:flutter_application_1/infrastructure/Repository/booking_repository.dart';
 import 'package:flutter_application_1/infrastructure/Repository/changeUsername_repo.dart';
 import 'package:flutter_application_1/infrastructure/Repository/table_respository.dart';
